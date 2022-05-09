@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<szamla>
+    <szamla>
+        <név>Kis józsi</név>
+        <id>01kv</id>
+        <pénz>5000</pénz>
+    </szamla>
+    <szamla>
+        <név>Nagy Ferenc</név>
+        <id>02kv</id>
+        <pénz>1</pénz>
+    </szamla>
+    <szamla>
+        <név>Végh Béla</név>
+        <id>01nv</id>
+        <pénz>15000</pénz>
+    </szamla>
+    <szamla>
+        <név>Makkos Irénke</név>
+        <id>01msz</id>
+        <pénz>20000</pénz>
+    </szamla>
+    <szamla>
+        <név>Béna Béla</név>
+        <id>03msz</id>
+        <pénz>300</pénz>
+    </szamla>
+</szamla>
