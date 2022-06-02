@@ -713,7 +713,7 @@ public class Ablak extends JFrame
             progressBar.setValue(0);
             panel.add(progressBar);
         }
-        public void runningPBar(){
+        public void runningPBar(){//                                                                     Szerkeszteni akarom
             int i=0;//Creating an integer variable and initializing it to 0
 
             while( i<=100)
