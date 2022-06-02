@@ -33,3 +33,4 @@ public class Bank {
         this.pénz = pénz;
     }
 }
+//tudok commit and pusholni
