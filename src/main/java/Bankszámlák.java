@@ -54,7 +54,7 @@ public class Bankszámlák {
 
     public static void main(String[] args){
 
-        new Ablak(new Bank("","",0));
+        new SplashScreen(new Bank("","",0));
     }
 
     public static String Listázás(ArrayList<Bank> szamla) {//                                                 Ablakooooos!!!!!!!!!!!!!!!!!

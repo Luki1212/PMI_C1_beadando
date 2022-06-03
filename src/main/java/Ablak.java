@@ -11,10 +11,10 @@ import java.net.URL;
 
 public class Ablak extends JFrame
     {
-        public final String url = "https://cdn.discordapp.com/attachments/961323610532876298/981984281448550400/unknown.png";//program háttér?
+        public final String url = "https://ak.picdn.net/shutterstock/videos/454504/thumb/1.jpg";//program háttér?
         //ki kell cseréli
 
-        public final String url0 ="https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77701450862.jpg";
+        public final String url0 ="https://media.istockphoto.com/vectors/of-gears-with-money-sign-from-wireframe-form-technology-and-vector-vector-id1212469818?k=20&m=1212469818&s=612x612&w=0&h=eYfkYWuZnT_3-VdLrCYAw4u6QYxJliRcy8Z7xn3mBlY=";
 
         public final Image image = BackgroundImage.requestImage(url);
         public final Image image0 = BackgroundImage.requestImage(url0);
@@ -652,7 +652,7 @@ public class Ablak extends JFrame
                 g.drawImage(image0, 0, 0, null);
             }
         };
-        JLabel text=new JLabel("Medicine Database");
+        JLabel text=new JLabel("Bankszámla Adatbázis");
         JProgressBar progressBar=new JProgressBar();
         JLabel message=new JLabel();//Crating a JLabel for displaying the message
         public SplashScreen(Bank bank)
@@ -677,7 +677,7 @@ public class Ablak extends JFrame
         public void addText()
         {
             text.setFont(new Font("arial",Font.BOLD,30));
-            text.setBounds(160,50,600,40);
+            text.setBounds(140,50,600,40);
             text.setForeground(Color.GREEN);
             panel.add(text);
         }
