@@ -11,18 +11,21 @@ import java.net.URL;
 
 public class Ablak extends JFrame
     {
-        public final String url = "https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/rm373batch15-217-01.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=d8bbc66e02e81095950de55fcc9347f5";
+        public final String url = "https://cdn.discordapp.com/attachments/961323610532876298/981984281448550400/unknown.png";//program háttér?
+        //ki kell cseréli
+
         public final String url0 ="https://wallpaper-mania.com/wp-content/uploads/2018/09/High_resolution_wallpaper_background_ID_77701450862.jpg";
 
         public final Image image = BackgroundImage.requestImage(url);
         public final Image image0 = BackgroundImage.requestImage(url0);
 
+        // ezt is
         public ImageIcon img = new ImageIcon("src/main/resources/icon.png");
-        //BackgroundImage
+
         public Ablak(Bank bank)
         {
             JMenuBar mb;
-            //JMenu file = new JMenu("File");
+
             JMenu exit= new JMenu("Exit");
 
 
@@ -31,8 +34,6 @@ public class Ablak extends JFrame
             setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
             setJMenuBar(mb=new JMenuBar());
-            //file.add(generate=new JMenuItem("Generate test Data"));
-            //file.add(exit=new JMenuItem("Exit"));
             mb.add(exit);
 
             JPanel panel = new JPanel(new GridBagLayout()){
@@ -48,16 +49,13 @@ public class Ablak extends JFrame
             constr.insets = new Insets(5, 5, 5, 5);
             constr.anchor = GridBagConstraints.WEST;
 
-            // Set the initial grid values to 0,0
             constr.gridx=0;
             constr.gridy=0;
 
-            // Declare the required Labels
             JLabel NameLabel = new JLabel("Új Bankszámla hozzáadása :");
             JLabel pwdLabel = new JLabel("Meglévő Bankszámla módosítása :");
             JLabel list = new JLabel("Bankszámlák listázása :");
-
-            // Declare Text fields
+            //kell majd még egy választás
             JButton button = new JButton("Új számla");
             JButton button0 = new JButton("Módosítás");
             JButton button1 = new JButton("Listázás");
@@ -83,24 +81,23 @@ public class Ablak extends JFrame
             // add a listener to button
             button.addActionListener(e -> {
                 frame.setVisible(false);
-                //!!!                        new Ujszamla(bank,"","");
+                Bankszámlák.UjszamlaNév();
             });
             button0.addActionListener(e -> {
                 frame.setVisible(false);
-                new Modositás(bank);
+                new Modositás2(bank);
             });
             button1.addActionListener(e ->{
                 frame.setVisible(false);
-                //!!!                        new Listázás(bank);
+                Bankszámlák.Listázás(Bankszámlák.szamla);
             });
 
             exit.addActionListener(e -> System.exit(0));
 
-            // Add panel to frame
             frame.setJMenuBar(mb);
             frame.add(panel);
             frame.pack();
-            //!!!                       frame.setSize(Xml.getdata()[0], Xml.getdata()[1]);
+            frame.setSize(400,300);//                                                            lehet kell változtatni
             frame.setResizable(false);
             frame.setIconImage(img.getImage());
             frame.setLocationRelativeTo(null);
@@ -111,10 +108,10 @@ public class Ablak extends JFrame
 
         }
     }
-    class Modositás extends Ablak
+    class Modositás2 extends Ablak
     {
-        Modositás(Bank bank) {
-            // Menu
+        Modositás2(Bank bank) {
+
             JMenuBar mb;
             JMenu file = new JMenu("További Opciók");
             JMenuItem back,exit;
@@ -124,11 +121,9 @@ public class Ablak extends JFrame
             file.add(exit=new JMenuItem("Exit"));
             mb.add(file);
 
-            // Create frame with title Registration Demo
             JFrame frame4 = new JFrame();
             frame4.setTitle("Bankszámlák");
 
-            // Panel to define the layout. We are using GridBagLayout
             JPanel panel = new JPanel(new GridBagLayout()){
                 @Override
                 protected void paintComponent(Graphics g)
@@ -137,18 +132,15 @@ public class Ablak extends JFrame
                     g.drawImage(image, 0, 0, null);
                 }
             };
-            // Constraints for the layout
             GridBagConstraints constr = new GridBagConstraints();
             constr.insets = new Insets(5, 5, 5, 5);
             constr.anchor = GridBagConstraints.WEST;
 
-            // Set the initial grid values to 0,0
             constr.gridx = 0;
             constr.gridy = 0;
 
-            // Declare the required Labels
-            JLabel NameLabel = new JLabel("Bankszámla törlése :");
-            JLabel pwdLabel = new JLabel("Bankszámla tulajdonos módosítása :");
+            JLabel NameLabel = new JLabel("Bankszámla törlése:");
+            JLabel pwdLabel = new JLabel("Bankszámla tulajdonos módosítása:");
 
             // Declare Text fields
             JButton button2 = new JButton("Törlés");
@@ -168,20 +160,18 @@ public class Ablak extends JFrame
 
             constr.gridwidth = 2;
             constr.anchor = GridBagConstraints.CENTER;
-            //constr.anchor = GridBagConstraints.CENTER;
 
-            // add a listener to button
             button2.addActionListener(e -> {
                 try {
-                    String rename = JOptionPane.showInputDialog("Removable Med: ");
+                    String rename = JOptionPane.showInputDialog("Törlendő Bankszámla tulajdonosa: ");
                     if(!rename.equals(""))
                     {
-                        if(bank.contains(rename))//                                  !!!!!!!!!!!!!!!!!!!
+                        if(Bankszámlák.Tartalmaz(rename))//                                  !!!!!!!!!!!!!!!!!!!
                         {
                             frame4.setVisible(false);
                             JOptionPane.showMessageDialog(this, "Operation successful!");
-                            bank.removeMedicine(rename);//                                                         !!!!!!!!!!!!!!!!!!!
-                            new Ablak(bank); //                                                              !!!!!!!!!!!!!!!!!!!
+                            Bankszámlák.Törlés(rename);
+                            new Ablak(bank);
                         }
                         else
                         {
@@ -190,7 +180,7 @@ public class Ablak extends JFrame
                             if(reply==JOptionPane.YES_OPTION)
                             {
                                 frame4.setVisible(false);
-                                new AddMed(bank,rename,"");//                                  !!!!!!!!!!!!!!!!!!!
+                                Bankszámlák.Ujszamla(rename);
                             }
                         }
                     }
@@ -198,31 +188,31 @@ public class Ablak extends JFrame
                     {
                         frame4.setVisible(false);
                         JOptionPane.showMessageDialog(this, "Hiba történt!");
-                        new Modositás(bank);
+                        new Modositás2(bank);
                     }
                 }catch (NullPointerException exception)
                 {
                     frame4.setVisible(false);
-                    new Modositás(bank);
+                    new Modositás2(bank);
                 }
 
             });
             button3.addActionListener(e -> {
                 frame4.setVisible(false);
-                new UpdateMed(bank,"",""); // Main Form to show after the Login Form.
+                Bankszámlák.Modositás(Bankszámlák.szamla);
             });
             back.addActionListener(e ->
             {
                 frame4.setVisible(false);
-                new MainGui(bank);
+                new Ablak(bank);
             });
             exit.addActionListener(e -> System.exit(0));
 
-            // Add panel to frame
+
             frame4.setJMenuBar(mb);
             frame4.add(panel);
             frame4.pack();
-            //frame4.setSize(Xml.getdata()[0], Xml.getdata()[1]);//                                  !!!!!!!!!!!!!!!!!!!
+            frame4.setSize(400,300);
             frame4.setLocationRelativeTo(null);
             frame4.setIconImage(img.getImage());
             frame4.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -233,16 +223,17 @@ public class Ablak extends JFrame
     class Listázás extends Ablak {
         public Listázás(Bank bank)
         {
-            System.out.println(bank.ListMedicines());//                                  !!!!!!!!!!!!!!!!!!!
+            Bankszámlák.Listázás(Bankszámlák.szamla);//                                  !!!!!!!!!!!!!!!!!!!
             JFrame frame2 = new JFrame();
             JMenuBar mb = new JMenuBar();
-            JMenu file = new JMenu("File");
+            JMenu file = new JMenu("További Lehetőségek");
             JMenu med = new JMenu("Medicine");
             JMenu modify;
-            JMenuItem exit,remove,update,added,removea;
+            JMenuItem exit,back,remove,update,added,removea;
 
             //file.add(generate=new JMenuItem("Generate test Data"));
             file.add(exit=new JMenuItem("Exit"));
+            file.add(back=new JMenuItem("Back"));
 
             med.add(added = new JMenuItem("Add") );
             med.add(modify = new JMenu("Modify") );
@@ -275,7 +266,7 @@ public class Ablak extends JFrame
             {
                 final DefaultTableCellRenderer renderCENTER = new DefaultTableCellRenderer();
 
-                { // initializer block
+                {
                     renderCENTER.setHorizontalAlignment(SwingConstants.CENTER);
                 }
 
@@ -288,47 +279,39 @@ public class Ablak extends JFrame
             table.setBounds(0,0,400,500);
 
             JScrollPane scrollPane = new JScrollPane(table);
-            //JTextArea Content = new JTextArea(medicines.ListMedicines());
-            //JButton button7 = new JButton("Save to XML!");
+            JTextArea Content = new JTextArea(Bankszámlák.Listázás(Bankszámlák.szamla));
+
             JButton button8 = new JButton("Back to Main");
 
-            // Set the initial grid values to 0,0
+
             constr.gridy=0;
 
             constr.gridx=1;
-            //panel.add(Content, constr);
+            panel.add(Content, constr);
             panel.add(scrollPane, constr);
             constr.gridx=0;
-            //                                                 !!!!!!!!!!!!!!         constr.gridy=1;
-            //panel.add(button7, constr);
             constr.gridx=2;
             panel.add(button8, constr);
 
-            // add a listener to button
-            /*
-            button7.addActionListener(e -> {
-                saveToXML(medicines);
-                frame2.setVisible(false);
-                JOptionPane.showMessageDialog(frame2,"Operation successful!");
-                new MainGui(medicines); // Main Form to show after the Login Form.
-            });*/
+
+
             button8.addActionListener(e -> {
                 frame2.setVisible(false);
-                new Ablak(bank); // Main Form to show after the Login Form.
+                new Ablak(bank);
             });
             added.addActionListener(e -> {
                 frame2.setVisible(false);
-                new AddMed(bank,"","");//                                                 !!!!!!!!!!!!!!!!!!!!!!!
+                Bankszámlák.UjszamlaNév();//                                                     !!!!!!!!!!!!!!!!!!!!!!!!!
             });
             update.addActionListener(e ->{
                 frame2.setVisible(false);
                 Component source = (Component) e.getSource();
-                /*       Mi a fasz???       */String response = (String) JOptionPane.showInputDialog(source,"Válasszon?", "Frissités", JOptionPane.QUESTION_MESSAGE, null, bank.createNameArray(), bank.createNameArray()[0]);
-                for(Bank bankok:bank.medList)///                           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                String response = (String) JOptionPane.showInputDialog(source,"Válasszon: ", "Frissités", JOptionPane.QUESTION_MESSAGE, null, Bankszámlák.createNameArray(), Bankszámlák.createNameArray()[0]);
+                for(Bank bankok:Bankszámlák.szamla)///                           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 {
                     if(bankok.getName().equals(response))
                     {
-                        new UpdateMed(bank,bankok.getName(),bankok.getDes());//                    !!!!!!!!!!!!!!!!!!!!!!!
+                        Bankszámlák.Modid(Bankszámlák.szamla,response);//                    !!!!!!!!!!!!!!!!!!!!!!!
                     }
                 }
 
@@ -336,20 +319,14 @@ public class Ablak extends JFrame
             remove.addActionListener(e ->{
                 frame2.setVisible(false);
                 Component source = (Component) e.getSource();
-                /*       Mi a fasz???       */String response = (String) JOptionPane.showInputDialog(source,"Choose One?", "Remove", JOptionPane.QUESTION_MESSAGE, null, medicines.createNameArray(), medicines.createNameArray()[0]);
-                bank.removeMedicine(response);//                                   !!!!!!!!!!!!!!!!!!!!!
+                /*       Mi a fasz???       */String response = (String) JOptionPane.showInputDialog(source,"Choose One?", "Remove", JOptionPane.QUESTION_MESSAGE, null, Bankszámlák.createNameArray(), Bankszámlák.createNameArray()[0]);
+                Bankszámlák.Törlés(response);//                                   !!!!!!!!!!!!!!!!!!!!!
                 JOptionPane.showMessageDialog(this,"Sikeres végrehajtás!");
                 new Listázás(bank);
             });
-            /*generate.addActionListener(e ->
-            {
-                frame2.setVisible(false);
-                medicines.generateMed(medicines,frame2);
-                new ListAll(medicines);
-            });*/
             removea.addActionListener(e -> {//                        !!!!!!!!!!!!!!!!!!
-                if (!bank.medList.isEmpty()){
-                    bank.removeAll();
+                if (!Bankszámlák.szamla.isEmpty()){
+                    Bankszámlák.removeAll();
                     frame2.setVisible(false);
                     JOptionPane.showMessageDialog(this ,"Minden Bankszámla törölve");
                     new Listázás(bank);
@@ -358,7 +335,7 @@ public class Ablak extends JFrame
             });
             exit.addActionListener(e -> System.exit(0));
             // Editable Table
-            DefaultTableModel tableModel = new DefaultTableModel(bank.createStringArray(),col) {//               !!!!!!!!!!!!!!!!!
+            DefaultTableModel tableModel = new DefaultTableModel(Bankszámlák.createStringArray(),col) {//               !!!!!!!!!!!!!!!!!
 
                 @Override
                 public boolean isCellEditable(int row, int column) {
@@ -369,9 +346,9 @@ public class Ablak extends JFrame
 
             table.setModel(tableModel);
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-            table.getColumnModel().getColumn(0).setPreferredWidth(125);
-            table.getColumnModel().getColumn(1).setPreferredWidth(table.getWidth()-table.getColumnModel().getColumn(0).getWidth());
-
+            table.getColumnModel().getColumn(0).setPreferredWidth(100);
+            table.getColumnModel().getColumn(1).setPreferredWidth(50);
+            table.getColumnModel().getColumn(2).setPreferredWidth(150);
             //Table Content Double Click
             table.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
@@ -396,11 +373,11 @@ public class Ablak extends JFrame
             frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame2.setVisible(true);
 
-        }
+        }/*
         public void saveToXML(Bank bank)
         {
             Xml.saveMedToXml(bank.medList,"src/main/resources/medicines.xml");//                    !!!!!!!!!!!!!!!!!!!!
-        }
+        }*/
     }
     class UjSzámla extends Ablak
     {
@@ -486,10 +463,10 @@ public class Ablak extends JFrame
             button6.addActionListener(e -> {
                 if(!NameTxt.getText().equals("")&&!IdTxt.getText().equals("")&&!NameTxt.getText().equals(" ")&&!IdTxt.getText().equals(" "))
                 {
-                    if(!bank.contains(NameTxt.getText()))//                                   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    if(!Bankszámlák.szamla.contains(NameTxt.getText()))//                                   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     {
                         frame1.setVisible(false);
-                        bank.addMed(NameTxt.getText(), IdTxt.getText(),BeTxt.getText(),EgyTxt.getText());
+                        Bankszámlák.UjszamlaTeljes(NameTxt.getText(), IdTxt.getText(),EgyTxt.getText());
                         JOptionPane.showMessageDialog(this, "Müvelet sikeresen végrehajtva!");
                         new Ablak(bank); // Main Form to show after the Login Form.
                     }
@@ -500,18 +477,18 @@ public class Ablak extends JFrame
                         if(reply==JOptionPane.YES_OPTION)
                         {
                             frame1.setVisible(false);
-                            for(Bank bankok:bank.medList)//                              !!!!!!!!!!!!!!!!!!!!!
+                            for(Bank bankok:Bankszámlák.szamla)//                              !!!!!!!!!!!!!!!!!!!!!
                             {
-                                if(NameTxt.getText().equals(bankok.getName())) new UpdateMed(bank, bankok.getName(), bankok.getDes());
+                                if(NameTxt.getText().equals(bankok.getName())) Bankszámlák.Modid(Bankszámlák.szamla, bankok.getName());
                             }
 
                         }
                     }
                 }
                 else {//                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    if (NameTxt.getText().equals("") && pwdTxt.getText().equals("")) JOptionPane.showMessageDialog(frame1, "Operation failed!\n No Name given!\n No Description given!");
+                    if (NameTxt.getText().equals("") && IdTxt.getText().equals("")) JOptionPane.showMessageDialog(frame1, "Operation failed!\n No Name given!\n No Description given!");
                     else if(NameTxt.getText().equals("")) JOptionPane.showMessageDialog(frame1, "Operation failed!\n No Name given!");
-                    else if(pwdTxt.getText().equals("")) JOptionPane.showMessageDialog(frame1, "Operation failed!\n No Description given!");
+                    else if(IdTxt.getText().equals("")) JOptionPane.showMessageDialog(frame1, "Operation failed!\n No Description given!");
                     else System.out.println("This cant happen!");
                 }
             });
@@ -528,14 +505,14 @@ public class Ablak extends JFrame
             // Add panel to frame
             frame1.add(panel);
             frame1.pack();
-            frame1.setSize(Xml.getdata()[0], Xml.getdata()[1]);//                    !!!!!!!!!!!!!!!!!!!!!!!!!!!
+            frame1.setSize(400,300);//                    !!!!!!!!!!!!!!!!!!!!!!!!!!!
             frame1.setJMenuBar(mb);
             frame1.setLocationRelativeTo(null);
             frame1.setIconImage(img.getImage());
             frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame1.setVisible(true);
         }
-    }
+    }/*
     class Módosítás extends Ablak
     {
         Módosítás(Bank bank, String name,String des)//                              Kiegészít
@@ -604,10 +581,10 @@ public class Ablak extends JFrame
             button6.addActionListener(e -> {
                 if(!NameTxt.getText().equals("")&&!pwdTxt.getText().equals(""))
                 {
-                    if(bank.contains(NameTxt.getText()))//                                 !!!!!!!!!!!!!!!!!!!!!!!
+                    if(Bankszámlák.szamla.contains(NameTxt.getText()))//                                 !!!!!!!!!!!!!!!!!!!!!!!
                     {
                         frame1.setVisible(false);
-                        medicines.updateDes(NameTxt.getText(), pwdTxt.getText());
+                        bank.updateDes(NameTxt.getText(), IdTxt.getText());
                         JOptionPane.showMessageDialog(frame1, "Operation successful!");
                         new Ablak(bank); // Main Form to show after the Login Form.
                     }
@@ -648,7 +625,7 @@ public class Ablak extends JFrame
             frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame1.setVisible(true);
         }
-    }
+    }*/
     class BackgroundImage extends Ablak
     {
         static Image requestImage(String url)

@@ -16,119 +16,255 @@ import static java.lang.System.err;
 
 public class Bankszámlák {
     private static final Scanner scanner = new Scanner(System.in);
+    public static ArrayList<Bank> szamla = XmlBeolvasó.readPillsFromXml("src/main/resources/szamla.xml");
+
+    public static Boolean Tartalmaz(String név){
+        return szamla.contains(név);
+
+    }
+
+    public static String[][] createStringArray()
+    {
+        String newArray[][] = new String[szamla.size()][];
+        for(Bank bank : szamla)
+        {
+            String[] innerArray = new String[3];
+            innerArray[0]=bank.getName();
+            innerArray[1]=bank.getId();
+            innerArray[2]=String.valueOf(bank.getPenz());
+            newArray[szamla.indexOf(bank)]=innerArray;
+        }
+        return newArray;
+    }
+
+    public static void removeAll()
+    {
+        szamla= new ArrayList<>();
+    }
+
+    public static String[] createNameArray()
+    {
+        String newArray[] = new String[szamla.size()];
+        for(Bank bank : szamla)
+        {
+            newArray[szamla.indexOf(bank)]=bank.getName();
+        }
+        return newArray;
+    }
+
+    public static void main(String[] args){
+
+        new Ablak(new Bank("","",0));
+    }
+
+    public static String Listázás(ArrayList<Bank> szamla) {//                                                 Ablakooooos!!!!!!!!!!!!!!!!!
+        String sorok="";
+
+        for (int i = 0; i < szamla.size(); i++) {
+
+            sorok+=(szamla.get(i).getName() + " - " + szamla.get(i).getId() + " - " + szamla.get(i).getPenz());
+            if(i<szamla.size()-1)sorok+="\n";
+        }
+        return sorok;
+    }
+    public static void Ujszamla(String név) {//                                         ablakosra át ir!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        while (true) {
 
 
-    public static void main(String[] args) {
-
-        ArrayList<Bank> szamla = XmlBeolvasó.readPillsFromXml("src/main/resources/szamla.xml");
-        int choice = -1;
-        while (choice != 0) {
-            switch (choice) {
-                case 1 -> Listázás(szamla);
-                case 2 -> Ujszamla(szamla);
-                case 3 -> Modositás(szamla);
-                case 4 -> Törlés(szamla);
-            }
-            System.out.println( "1 - Kilistázás\r\n2 - Hozzáadás\r\n"+ "3 - Modositás\r\n4 - Törlés\r\n0 - Exit\n" );
             try {
-                choice = scanner.nextInt();
-                scanner.nextLine();
-                if (choice < 0 || choice > 4) {
-                    err.println("Nem létező opció.");
-                }
-            } catch (InputMismatchException e) {
-                System.err.println("Nem létező opció.");
-                scanner.nextLine();
-            }
-        }
 
-        saveToXml(szamla, "src/main/resources/szamla.xml");
-    }
-
-    private static void Listázás(ArrayList<Bank> szamla) {
-        for(Bank szamlak:szamla) {
-            System.out.println(szamlak.getName() + " - " + szamlak.getId() + " - " + szamlak.getPenz());
-        }
-        System.out.println("\n");
-    }
-    private static void Ujszamla(ArrayList<Bank> szamla) {
-        String név ="";
-        while(true){
-
-            System.out.println("Adja meg az uj számla tulajdonos nevét: ");
-            try{
-                név = scanner.nextLine();
                 for (int i = 0; i < szamla.size(); i++) {
-                    if(név.equals(szamla.get(i).getName())){
+                    if (név.equals(szamla.get(i).getName())) {
                         throw new HibasNev();
-                    }
-                    else if (név==" "){
+                    } else if (név.equals(" ")) {
                         throw new ÜresNév();
                     }
                 }
                 break;
-            }catch (HibasNev hn){
+            } catch (HibasNev hn) {
                 System.err.println("Már létezik ilyen nevü számla tulajdonos, elöbb törölje a már meglévőt és kezdje ujra a folyamatot");
-            }catch (ÜresNév hn){
+            } catch (ÜresNév hn) {
                 System.err.println("nem adhat meg üres nevet");
             }
-
+        new Ablak(new Bank("", "",0));
 
         }
         String id = "";
         String id2;
-        boolean igaz=false;
+        boolean igaz = false;
         System.out.print("Üsse be az id-t (min 2, max 20 karakter): \n");
-        while(igaz==false){
+        while (igaz == false) {
 
-            try{
+            try {
                 id = scanner.next();
 
                 for (int i = 0; i < szamla.size(); i++) {
-                    if(id.equals(szamla.get(i).getId())){
+                    if (id.equals(szamla.get(i).getId())) {
                         throw new LetezoId();
-                    }
-                    else if(id.length()>20 || id.length()<2) {
+                    } else if (id.length() > 20 || id.length() < 2) {
 
                         throw new HibasId();
-                    }
-                    else if(i== szamla.size()-1){
+                    } else if (i == szamla.size() - 1) {
                         igaz = true;
                         break;
                     }
                 }
-            }
-            catch (HibasId hi){
+            } catch (HibasId hi) {
                 System.err.println("nem jo id hossz \nProbálja ujra");
-            }
-            catch (LetezoId hi){
+            } catch (LetezoId hi) {
                 System.err.println("Már Létezik ilyen id-val rendelkező számla \nProbálja ujra");
             }
 
         }
-        int pénz =0;
-        while(true){
+        int pénz = 0;
+        while (true) {
 
             System.out.println("Üsse be az új pénz összeget");
-            pénz =0;
-            try{
+            pénz = 0;
+            try {
                 pénz = scanner.nextInt();
                 scanner.nextLine();
 
                 break;
-            }
-            catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.err.println("nem szám Pénz értéke");
                 scanner.nextLine();
             }
 
         }
-
-
-        szamla.add(new Bank(név,id,pénz));
-        System.out.println("Uj számla sikeresen hozzáadva");
     }
-    private static void Modositás(ArrayList<Bank> szamla) {
+    public static void UjszamlaTeljes(String név,String id, String egyenleg) {//                                         ablakosra át ir!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        while (true) {
+            try {
+                for (int i = 0; i < szamla.size(); i++) {
+                    if (név.equals(szamla.get(i).getName())) {
+                        throw new HibasNev();
+                    } else if (név.equals(" ")) {
+                        throw new ÜresNév();
+                    }
+                }
+                break;
+            } catch (HibasNev hn) {
+                System.err.println("Már létezik ilyen nevü számla tulajdonos, elöbb törölje a már meglévőt és kezdje ujra a folyamatot");
+            } catch (ÜresNév hn) {
+                System.err.println("nem adhat meg üres nevet");
+            }
+
+
+        }
+        boolean igaz = false;
+
+        while (igaz == false) {
+            try {
+                for (int i = 0; i < szamla.size(); i++) {
+                    if (id.equals(szamla.get(i).getId())) {
+                        throw new LetezoId();
+                    } else if (id.length() > 20 || id.length() < 2) {
+
+                        throw new HibasId();
+                    } else if (i == szamla.size() - 1) {
+                        igaz = true;
+                        break;
+                    }
+                }
+            } catch (HibasId hi) {
+                System.err.println("nem jo id hossz \nProbálja ujra");
+            } catch (LetezoId hi) {
+                System.err.println("Már Létezik ilyen id-val rendelkező számla \nProbálja ujra");
+            }
+
+        }
+
+        while (true) {
+            try {
+                break;
+            } catch (InputMismatchException e) {
+                System.err.println("nem szám Pénz értéke");
+            }
+
+        }
+        new Ablak(new Bank("","",0));
+    }
+
+        public static void UjszamlaNév() {//                                         ablakosra át ir!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            String nev="";
+            while(true){
+                System.out.println("adja meg a Bankszámla tulajdonos nevét: ");
+                nev=scanner.nextLine();
+                try{
+
+                    for (int i = 0; i < szamla.size(); i++) {
+                        if(nev.equals(szamla.get(i).getName())){
+                            throw new HibasNev();
+                        }
+                        else if (nev.equals(" ")){
+                            throw new ÜresNév();
+                        }
+                    }
+                    break;
+                }catch (HibasNev hn){
+                    System.err.println("Már létezik ilyen nevü számla tulajdonos, elöbb törölje a már meglévőt és kezdje ujra a folyamatot");
+                }catch (ÜresNév hn){
+                    System.err.println("nem adhat meg üres nevet");
+                }
+
+
+            }
+            String id = "";
+            boolean Hamis=false;
+            System.out.print("Üsse be az id-t (min 2, max 20 karakter): \n");
+            while(Hamis==false){
+
+                try{
+                    id = scanner.next();
+
+                    for (int i = 0; i < szamla.size(); i++) {
+                        if(id.equals(szamla.get(i).getId())){
+                            throw new LetezoId();
+                        }
+                        else if(id.length()>20 || id.length()<2) {
+
+                            throw new HibasId();
+                        }
+                        else if(i== szamla.size()-1){
+                            Hamis = true;
+                            break;
+                        }
+                    }
+                }
+                catch (HibasId hi){
+                    System.err.println("nem jo id hossz \nProbálja ujra");
+                }
+                catch (LetezoId hi){
+                    System.err.println("Már Létezik ilyen id-val rendelkező számla \nProbálja ujra");
+                }
+
+            }
+            int pénz =0;
+            while(true){
+
+                System.out.println("Üsse be az új pénz összeget");
+                pénz =0;
+                try{
+                    pénz = scanner.nextInt();
+                    scanner.nextLine();
+
+                    break;
+                }
+                catch (InputMismatchException e){
+                    System.err.println("nem szám Pénz értéke");
+                    scanner.nextLine();
+                }
+
+            }
+
+        szamla.add(new Bank(nev,id,pénz));
+        System.out.println("Uj számla sikeresen hozzáadva");
+        new Ablak(new Bank("","",0));
+    }
+    public static void Modositás(ArrayList<Bank> szamla) {//                                       Ablakooooos!!!!!!!!!!!!!!!!!!!!!
         System.out.println("Üsse be a számla id-ját a modositáshoz: ");
         String id = scanner.nextLine();
         int choice = -1;
@@ -202,6 +338,43 @@ public class Bankszámlák {
         return;
     }
 
+    public static  void Modid(ArrayList<Bank> szamla,String név){// név alapján id modositás
+        for (Bank szamlak : szamla) {
+            if (szamlak.getName().equals(név)) {
+                String id="";
+                boolean hamis=false;
+                System.out.println("Üsse be a számla uj Id értékét: ");
+
+                while(hamis==false){
+                    try{
+                        while (id =="") id = scanner.nextLine();
+                        System.out.println("log :" + id);
+                        for (int i = 0; i < szamla.size(); i++) {
+                            if(id.equals(szamla.get(i).getId())){
+                                throw new LetezoNev();
+                            }
+                            else if (id==" "){
+                                throw new ÜresNév();
+                            }
+                            else if(i== szamla.size()-1){
+                                hamis = true;
+                            }
+                        }
+                    }
+                    catch (LetezoNev hn){
+                        System.err.println("Már Létezik ilyen idval számla \nProbálja ujra");
+                    }catch (ÜresNév hn){
+                        System.err.println("nem adhat meg üres idt \nProbálja ujra");
+                    }
+
+                }
+                szamla.set(szamla.indexOf(szamlak), new Bank(név, id, szamlak.getPenz()));
+            }
+        }
+        System.out.println("Számla id-ja sikeresen modosítva\n");
+        return;
+    }
+
     public static  void Modpenz(ArrayList<Bank> szamla,String id){
         for (Bank szamlak : szamla) {
             if (szamlak.getId().equals(id)) {
@@ -224,17 +397,14 @@ public class Bankszámlák {
         System.out.println("Számla pénz összege sikeresen módosítva.\n");
         return;
     }
-    private static void Törlés(ArrayList<Bank> szamla) {
-        System.out.println("Üsse be az id-t amelyikhez tartozó számlát törölni kívánja: ");
-        String id = scanner.nextLine();
+    public static void Törlés(String név) {
+
         for (Bank szamlak : szamla) {
-            if (szamlak.getId().equals(id)) {
+            if (szamlak.getName().equals(név)) {
                 szamla.remove(szamlak);
-                System.out.println("Számla sikeresen törölve\n");
                 return;
             }
         }
-        System.err.println("Nincs ilyen id-val rendelkező számla.");
     }
     public static void saveToXml(ArrayList<Bank> szamla, String filepath) {
         try {
@@ -279,7 +449,7 @@ class HibasId extends Exception{
 
 }
 
-class HibasNev extends Exception{
+ class HibasNev extends Exception{
 
 }
 class LetezoNev extends Exception{

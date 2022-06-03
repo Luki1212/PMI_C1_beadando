@@ -32,5 +32,10 @@ public class Bank {
     public void setPenz(int pénz) {
         this.pénz = pénz;
     }
+
+
+
 }
+
+
 //tudok commit and pusholni
