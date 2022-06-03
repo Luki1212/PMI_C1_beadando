@@ -685,8 +685,8 @@ public class Ablak extends JFrame
             progressBar.setBounds(100,100,400,30);
             progressBar.setBorderPainted(true);
             progressBar.setStringPainted(true);
-            progressBar.setBackground(Color.WHITE);
-            progressBar.setForeground(Color.BLACK);
+            progressBar.setBackground(Color.BLACK);
+            progressBar.setForeground(Color.GRAY);
             progressBar.setValue(0);
             panel.add(progressBar);
         }
@@ -697,7 +697,9 @@ public class Ablak extends JFrame
             {
                 try{
                     Thread.sleep(15);//Pausing execution for 50 milliseconds
+                    progressBar.setBackground(Color.BLACK);
                     progressBar.setValue(i);//Setting value of Progress Bar
+                    message.setForeground(Color.black);
                     message.setText("Betöltés "+ i +"%");//Setting text of the message JLabel
                     i++;
                     if(i==100)
