@@ -10,17 +10,17 @@ import java.io.IOException;
 import java.net.URL;
 
 public class Ablak extends JFrame
-    {
-        public final String url = "https://ak.picdn.net/shutterstock/videos/454504/thumb/1.jpg";//program háttér?
+{
+        public final String url =  "https://cdn.discordapp.com/attachments/981981881681715220/984051752527618048/harree_bank.jpg";
         //ki kell cseréli
 
-        public final String url0 ="https://media.istockphoto.com/vectors/of-gears-with-money-sign-from-wireframe-form-technology-and-vector-vector-id1212469818?k=20&m=1212469818&s=612x612&w=0&h=eYfkYWuZnT_3-VdLrCYAw4u6QYxJliRcy8Z7xn3mBlY=";
+        public final String url0 = "https://cdn.discordapp.com/attachments/981981881681715220/984051752833794058/bank_toltokep.jpg";
 
         public final Image image = BackgroundImage.requestImage(url);
         public final Image image0 = BackgroundImage.requestImage(url0);
 
         // ezt is
-        public ImageIcon img = new ImageIcon("src/main/resources/icon.png");
+        public ImageIcon img = new ImageIcon("src/main/resources/bankikon.png");
 
         public Ablak(Bank bank)
         {
@@ -60,6 +60,10 @@ public class Ablak extends JFrame
             JButton button0 = new JButton("Módosítás");
             JButton button1 = new JButton("Listázás");
 
+            NameLabel.setForeground(Color.WHITE);
+            pwdLabel.setForeground(Color.WHITE);
+            list.setForeground(Color.WHITE);
+
             panel.add(NameLabel, constr);
             constr.gridx=1;
             panel.add(button, constr);
@@ -97,7 +101,7 @@ public class Ablak extends JFrame
             frame.setJMenuBar(mb);
             frame.add(panel);
             frame.pack();
-            frame.setSize(400,300);//                                                            lehet kell változtatni
+            frame.setSize(720,360);//                                                            lehet kell változtatni
             frame.setResizable(false);
             frame.setIconImage(img.getImage());
             frame.setLocationRelativeTo(null);
@@ -212,7 +216,7 @@ public class Ablak extends JFrame
             frame4.setJMenuBar(mb);
             frame4.add(panel);
             frame4.pack();
-            frame4.setSize(400,300);
+            frame4.setSize(720,360);
             frame4.setLocationRelativeTo(null);
             frame4.setIconImage(img.getImage());
             frame4.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -505,7 +509,7 @@ public class Ablak extends JFrame
             // Add panel to frame
             frame1.add(panel);
             frame1.pack();
-            frame1.setSize(400,300);//                    !!!!!!!!!!!!!!!!!!!!!!!!!!!
+            frame1.setSize(720,360);//                    !!!!!!!!!!!!!!!!!!!!!!!!!!!
             frame1.setJMenuBar(mb);
             frame1.setLocationRelativeTo(null);
             frame1.setIconImage(img.getImage());
