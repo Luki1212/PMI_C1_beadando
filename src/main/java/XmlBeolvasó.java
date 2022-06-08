@@ -33,6 +33,7 @@ public class XmlBeolvasó {
                             }
                         }
                     }
+                    System.out.println(besorolas);
                     szamla.add(new Bank(név,id,Integer.parseInt(pénz),Besorolas.valueOf(besorolas)));
                 }
             }

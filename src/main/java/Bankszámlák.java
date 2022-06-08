@@ -365,7 +365,7 @@ public class Bankszámlák {
         constr.gridy = 0;
         JPanel panel = new JPanel();
         JLabel IdLabel = new JLabel("Adja meg az Idt a modositáshoz :");
-        String id = "";
+        //final String id = "";
         JTextField IdTxt = new JTextField(20);
         JTextArea IdText = new JTextArea();
 
@@ -376,7 +376,7 @@ public class Bankszámlák {
         constr.gridy = 2;
 
 
-        id = IdText.getText();
+        final String id = IdText.getText();
         int choice = -1;
         for (Bank szamlak : szamla) {
 
@@ -419,11 +419,11 @@ public class Bankszámlák {
 
                 button.addActionListener(e -> {
                     frame.setVisible(false);
-                    //Modnev(szamla, id);
+                    Modnev(szamla, id);
                 });
                 button0.addActionListener(e -> {
                     frame.setVisible(false);
-                     //Modpenz(szamla, id);
+                    Modpenz(szamla, id);
                 });
             }
             new Ablak(new Bank("", "", 0, Besorolas.MAGANSZEMELY));
@@ -434,13 +434,30 @@ public class Bankszámlák {
         for (Bank szamlak : szamla) {
             if (szamlak.getId().equals(id)) {
                 String név = "";
+                JFrame frame2 = new JFrame();
+                JMenuBar mb = new JMenuBar();
+                frame2.setTitle("Számla Modositáas:");
+                GridBagConstraints constr = new GridBagConstraints();
+                constr.insets = new Insets(5, 5, 5, 5);
+                constr.anchor = GridBagConstraints.WEST;
+                constr.gridx = 0;
+                constr.gridy = 0;
+                JPanel panel = new JPanel();
+                JLabel NéLabel = new JLabel("Adja meg a számla tulajdonos uj nevét :");
+                //final String id = "";
+                JTextField NéTxt = new JTextField(20);
+                JTextArea NéText = new JTextArea();
+
+                panel.add(NéLabel, constr);
+                constr.gridx = 1;
+                panel.add(NéTxt, constr);
+                constr.gridx = 0;
+                constr.gridy = 2;
+
                 boolean hamis=false;
-                System.out.println("Üsse be a számla uj tulajdonosának nevét: ");
 
                 while(hamis==false){
                     try{
-                        while (név =="") név = scanner.nextLine();
-                        System.out.println("log :" + név);
                         for (int i = 0; i < szamla.size(); i++) {
                             if(név.equals(szamla.get(i).getName())){
                                 throw new LetezoNev();
@@ -480,13 +497,30 @@ public class Bankszámlák {
         for (Bank szamlak : szamla) {
             if (szamlak.getName().equals(név)) {
                 String id="";
+                JFrame frame2 = new JFrame();
+                JMenuBar mb = new JMenuBar();
+                frame2.setTitle("Számla Modositáas:");
+                GridBagConstraints constr = new GridBagConstraints();
+                constr.insets = new Insets(5, 5, 5, 5);
+                constr.anchor = GridBagConstraints.WEST;
+                constr.gridx = 0;
+                constr.gridy = 0;
+                JPanel panel = new JPanel();
+                JLabel IdLabel = new JLabel("Adja meg a számla tulajdonos uj Idját :");
+                //final String id = "";
+                JTextField IdTxt = new JTextField(20);
+                JTextArea IdText = new JTextArea();
+
+                panel.add(IdLabel, constr);
+                constr.gridx = 1;
+                panel.add(IdTxt, constr);
+                constr.gridx = 0;
+                constr.gridy = 2;
+
                 boolean hamis=false;
-                System.out.println("Üsse be a számla uj Id értékét: ");
 
                 while(hamis==false){
                     try{
-                        while (id =="") id = scanner.nextLine();
-                        System.out.println("log :" + id);
                         for (int i = 0; i < szamla.size(); i++) {
                             if(id.equals(szamla.get(i).getId())){
                                 throw new LetezoNev();
@@ -526,11 +560,32 @@ public class Bankszámlák {
         for (Bank szamlak : szamla) {
             if (szamlak.getId().equals(id)) {
 
+                JFrame frame2 = new JFrame();
+                JMenuBar mb = new JMenuBar();
+                frame2.setTitle("Számla Modositáas:");
+                GridBagConstraints constr = new GridBagConstraints();
+                constr.insets = new Insets(5, 5, 5, 5);
+                constr.anchor = GridBagConstraints.WEST;
+                constr.gridx = 0;
+                constr.gridy = 0;
+                JPanel panel = new JPanel();
+                JLabel PéLabel = new JLabel("Adja meg a számla uj egyenlegét :");
+                //final String id = "";
+                JTextField PéTxt = new JTextField(20);
+                JTextArea PéText = new JTextArea();
+
+                panel.add(PéLabel, constr);
+                constr.gridx = 1;
+                panel.add(PéTxt, constr);
+                constr.gridx = 0;
+                constr.gridy = 2;
+
+
                 while(true){
-                    System.out.println("Üsse be a számlán szereplő pénz összeget: ");
+
                     int pénz =0;
                     try{
-                        pénz = scanner.nextInt();
+                        pénz = Integer.parseInt(PéText.getText());
                         szamla.set(szamla.indexOf(szamlak), new Bank(szamlak.getName(), id, pénz,Besorolas.MAGANSZEMELY));
                         break;
                     }
