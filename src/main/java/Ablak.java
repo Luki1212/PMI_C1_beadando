@@ -244,7 +244,7 @@ public class Ablak extends JFrame
             med.add(removea = new JMenuItem("Remove all") );
 
             modify.add(remove = new JMenuItem("Remove"));
-            modify.add(update = new JMenuItem("Update"));
+            //modify.add(update = new JMenuItem("Update"));
 
             mb.add(file);
             mb.add(med);
@@ -302,19 +302,6 @@ public class Ablak extends JFrame
             added.addActionListener(e -> {
                 frame2.setVisible(false);
                 Bankszámlák.UjszamlaNév();//                                                     !!!!!!!!!!!!!!!!!!!!!!!!!
-            });
-            update.addActionListener(e ->{
-                frame2.setVisible(false);
-                Component source = (Component) e.getSource();
-                String response = (String) JOptionPane.showInputDialog(source,"Válasszon: ", "Frissités", JOptionPane.QUESTION_MESSAGE, null, Bankszámlák.createNameArray(), Bankszámlák.createNameArray()[0]);
-                for(Bank bankok:Bankszámlák.szamla)///                           !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                {
-                    if(bankok.getName().equals(response))
-                    {
-                        Bankszámlák.Modid(Bankszámlák.szamla,response);//                    !!!!!!!!!!!!!!!!!!!!!!!
-                    }
-                }
-
             });
             remove.addActionListener(e ->{
                 frame2.setVisible(false);
@@ -374,136 +361,6 @@ public class Ablak extends JFrame
             frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame2.setVisible(true);
 
-        }
-    }
-    class UjSzámla extends Ablak
-    {
-        public UjSzámla(Bank bank,String name,String id,String besorolas,String egyenleg)
-        {
-            // Menu
-            JMenuBar mb;
-            JMenu file = new JMenu("További Lehetőségek");
-            JMenuItem back,exit;
-
-            setJMenuBar(mb=new JMenuBar());
-            file.add(back=new JMenuItem("Back"));
-            file.add(exit=new JMenuItem("Exit"));
-            mb.add(file);
-
-            // Create frame with title Registration Demo
-            JFrame frame1= new JFrame();
-            frame1.setTitle("Uj Bankszámla létrehozása");
-
-            JPanel panel = new JPanel(new GridBagLayout()){
-                @Override
-                protected void paintComponent(Graphics g)
-                {
-                    super.paintComponent(g);
-                    g.drawImage(image, 0, 0, null);
-                }
-            };
-            // Constraints for the layout
-            GridBagConstraints constr = new GridBagConstraints();
-            constr.insets = new Insets(5, 5, 5, 5);
-            constr.anchor = GridBagConstraints.WEST;
-
-            // Set the initial grid values to 0,0
-            constr.gridx=0;
-            constr.gridy=0;
-
-            // Declare the required Labels
-            JLabel NameLabel = new JLabel("Számla tulajdonos neve :");
-            JLabel IdLabel = new JLabel("Id :");
-            JLabel EgyLabel = new JLabel("Egyenleg :");
-            JLabel BeLabel = new JLabel("Besorolás :");
-
-            // Declare Text fields
-            JTextField NameTxt = new JTextField(20);
-            JTextField IdTxt = new JTextField(20);
-            JTextField EgyTxt = new JTextField(20);
-            JTextField BeTxt = new JTextField(20);
-            NameTxt.setText(name);//                                     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            IdTxt.setText(id);
-            EgyTxt.setText(egyenleg);
-            BeTxt.setText(besorolas);
-
-            panel.add(NameLabel, constr);
-            constr.gridx=1;
-            panel.add(NameTxt, constr);
-            constr.gridx=0; constr.gridy=1;
-
-            panel.add(IdLabel, constr);
-            constr.gridx=1;
-            panel.add(IdTxt, constr);
-            constr.gridx=0; constr.gridy=2;
-
-            panel.add(EgyLabel, constr);
-            constr.gridx=1;
-            panel.add(EgyTxt, constr);
-            constr.gridx=0; constr.gridy=4;
-
-            panel.add(BeLabel, constr);
-            constr.gridx=1;
-            panel.add(BeTxt, constr);
-            constr.gridx=0; constr.gridy=3;
-
-            constr.gridwidth = 4;
-            constr.anchor = GridBagConstraints.CENTER;
-
-            // Button with text "Register"
-            JButton button6 = new JButton("Számla létrehozása!");
-            // add a listener to button
-            button6.addActionListener(e -> {
-                if(!NameTxt.getText().equals("")&&!IdTxt.getText().equals("")&&!NameTxt.getText().equals(" ")&&!IdTxt.getText().equals(" "))
-                {
-                    if(!Bankszámlák.szamla.contains(NameTxt.getText()))//                                   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    {
-                        frame1.setVisible(false);
-                        Bankszámlák.UjszamlaTeljes(NameTxt.getText(), IdTxt.getText(),EgyTxt.getText(),BeTxt.getText());
-                        JOptionPane.showMessageDialog(this, "Müvelet sikeresen végrehajtva!");
-                        new Ablak(bank); // Main Form to show after the Login Form.
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(this, "Hiba!\nLétezik evvel a névvel Bankszámla!");
-                        int reply =JOptionPane.showConfirmDialog(this,"Kívánja módosítani a már megléső Bankszámlát?");
-                        if(reply==JOptionPane.YES_OPTION)
-                        {
-                            frame1.setVisible(false);
-                            for(Bank bankok:Bankszámlák.szamla)//                              !!!!!!!!!!!!!!!!!!!!!
-                            {
-                                if(NameTxt.getText().equals(bankok.getName())) Bankszámlák.Modid(Bankszámlák.szamla, bankok.getName());
-                            }
-
-                        }
-                    }
-                }
-                else {//                                  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    if (NameTxt.getText().equals("") && IdTxt.getText().equals("")) JOptionPane.showMessageDialog(frame1, "Operation failed!\n No Name given!\n No Description given!");
-                    else if(NameTxt.getText().equals("")) JOptionPane.showMessageDialog(frame1, "Operation failed!\n No Name given!");
-                    else if(IdTxt.getText().equals("")) JOptionPane.showMessageDialog(frame1, "Operation failed!\n No Description given!");
-                    else System.out.println("This cant happen!");
-                }
-            });
-            back.addActionListener(e ->
-            {
-                frame1.setVisible(false);
-                new Ablak(bank);
-            });
-            exit.addActionListener(e -> System.exit(0));
-            // Add label and button to panel
-            panel.add(button6, constr);
-
-
-            // Add panel to frame
-            frame1.add(panel);
-            frame1.pack();
-            frame1.setSize(720,360);//                    !!!!!!!!!!!!!!!!!!!!!!!!!!!
-            frame1.setJMenuBar(mb);
-            frame1.setLocationRelativeTo(null);
-            frame1.setIconImage(img.getImage());
-            frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame1.setVisible(true);
         }
     }
 
