@@ -93,7 +93,7 @@ public class Ablak extends JFrame
             });
             button1.addActionListener(e ->{
                 frame.setVisible(false);
-                Bankszámlák.Listázás(Bankszámlák.szamla);
+                new Listázás(bank);
             });
 
             exit.addActionListener(e -> System.exit(0));
@@ -227,11 +227,11 @@ public class Ablak extends JFrame
     class Listázás extends Ablak {
         public Listázás(Bank bank)
         {
-            Bankszámlák.Listázás(Bankszámlák.szamla);//                                  !!!!!!!!!!!!!!!!!!!
+            //Bankszámlák.Listázás(Bankszámlák.szamla);//                                  !!!!!!!!!!!!!!!!!!!
             JFrame frame2 = new JFrame();
             JMenuBar mb = new JMenuBar();
             JMenu file = new JMenu("További Lehetőségek");
-            JMenu med = new JMenu("Medicine");
+            JMenu med = new JMenu("Bank");
             JMenu modify;
             JMenuItem exit,back,remove,update,added,removea;
 
@@ -263,8 +263,7 @@ public class Ablak extends JFrame
             constr.insets = new Insets(5, 5, 5, 5);
             constr.anchor = GridBagConstraints.WEST;
 
-            // Declare the required Labels
-            String[] col = {"Tulajdonos Neve","Id","Besorolás","Egyenleg"};//                                  !!!!!!!!!!!!!!!!!!!
+            String[] col = {"Tulajdonos Neve","Id","Egyenleg","Besorolás"};//                                  !!!!!!!!!!!!!!!!!!!
 
             JTable table = new JTable()
             {
@@ -280,18 +279,15 @@ public class Ablak extends JFrame
                     return renderCENTER;
                 }
             };
-            table.setBounds(0,0,400,500);
+            table.setBounds(0,0,400,300);
 
             JScrollPane scrollPane = new JScrollPane(table);
-            JTextArea Content = new JTextArea(Bankszámlák.Listázás(Bankszámlák.szamla));
-
             JButton button8 = new JButton("Back to Main");
-
 
             constr.gridy=0;
 
             constr.gridx=1;
-            panel.add(Content, constr);
+            //panel.add(Content, constr);
             panel.add(scrollPane, constr);
             constr.gridx=0;
             constr.gridx=2;
@@ -323,8 +319,8 @@ public class Ablak extends JFrame
             remove.addActionListener(e ->{
                 frame2.setVisible(false);
                 Component source = (Component) e.getSource();
-                /*       Mi a fasz???       */String response = (String) JOptionPane.showInputDialog(source,"Choose One?", "Remove", JOptionPane.QUESTION_MESSAGE, null, Bankszámlák.createNameArray(), Bankszámlák.createNameArray()[0]);
-                Bankszámlák.Törlés(response);//                                   !!!!!!!!!!!!!!!!!!!!!
+                String response = (String) JOptionPane.showInputDialog(source,"Choose One?", "Remove", JOptionPane.QUESTION_MESSAGE, null, Bankszámlák.createNameArray(), Bankszámlák.createNameArray()[0]);
+                Bankszámlák.Törlés(response);
                 JOptionPane.showMessageDialog(this,"Sikeres végrehajtás!");
                 new Listázás(bank);
             });
@@ -352,7 +348,8 @@ public class Ablak extends JFrame
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             table.getColumnModel().getColumn(0).setPreferredWidth(100);
             table.getColumnModel().getColumn(1).setPreferredWidth(50);
-            table.getColumnModel().getColumn(2).setPreferredWidth(150);
+            table.getColumnModel().getColumn(2).setPreferredWidth(100);
+            table.getColumnModel().getColumn(3).setPreferredWidth(150);
             //Table Content Double Click
             table.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
@@ -371,17 +368,13 @@ public class Ablak extends JFrame
             frame2.setLocationRelativeTo(null);
             //frame2.setSize(Content.getWidth()+220,Content.getHeight()+100);
             System.out.println(table.getHeight());
-            frame2.setSize(800,600);
+            frame2.setSize(760,600);
             frame2.setJMenuBar(mb);
             frame2.setIconImage(img.getImage());
             frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame2.setVisible(true);
 
-        }/*
-        public void saveToXML(Bank bank)
-        {
-            Xml.saveMedToXml(bank.medList,"src/main/resources/medicines.xml");//                    !!!!!!!!!!!!!!!!!!!!
-        }*/
+        }
     }
     class UjSzámla extends Ablak
     {
@@ -401,10 +394,6 @@ public class Ablak extends JFrame
             JFrame frame1= new JFrame();
             frame1.setTitle("Uj Bankszámla létrehozása");
 
-            // Panel to define the layout. We are using GridBagLayout
-
-
-            // Panel to define the layout. We are using GridBagLayout
             JPanel panel = new JPanel(new GridBagLayout()){
                 @Override
                 protected void paintComponent(Graphics g)
@@ -425,18 +414,18 @@ public class Ablak extends JFrame
             // Declare the required Labels
             JLabel NameLabel = new JLabel("Számla tulajdonos neve :");
             JLabel IdLabel = new JLabel("Id :");
-            JLabel BeLabel = new JLabel("Besorolás :");
             JLabel EgyLabel = new JLabel("Egyenleg :");
+            JLabel BeLabel = new JLabel("Besorolás :");
 
             // Declare Text fields
             JTextField NameTxt = new JTextField(20);
             JTextField IdTxt = new JTextField(20);
-            JTextField BeTxt = new JTextField(20);
             JTextField EgyTxt = new JTextField(20);
+            JTextField BeTxt = new JTextField(20);
             NameTxt.setText(name);//                                     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             IdTxt.setText(id);
-            BeTxt.setText(besorolas);
             EgyTxt.setText(egyenleg);
+            BeTxt.setText(besorolas);
 
             panel.add(NameLabel, constr);
             constr.gridx=1;
@@ -448,15 +437,15 @@ public class Ablak extends JFrame
             panel.add(IdTxt, constr);
             constr.gridx=0; constr.gridy=2;
 
-            panel.add(BeLabel, constr);
-            constr.gridx=1;
-            panel.add(BeTxt, constr);
-            constr.gridx=0; constr.gridy=3;
-
             panel.add(EgyLabel, constr);
             constr.gridx=1;
             panel.add(EgyTxt, constr);
             constr.gridx=0; constr.gridy=4;
+
+            panel.add(BeLabel, constr);
+            constr.gridx=1;
+            panel.add(BeTxt, constr);
+            constr.gridx=0; constr.gridy=3;
 
             constr.gridwidth = 4;
             constr.anchor = GridBagConstraints.CENTER;
@@ -470,7 +459,7 @@ public class Ablak extends JFrame
                     if(!Bankszámlák.szamla.contains(NameTxt.getText()))//                                   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     {
                         frame1.setVisible(false);
-                        Bankszámlák.UjszamlaTeljes(NameTxt.getText(), IdTxt.getText(),EgyTxt.getText());
+                        Bankszámlák.UjszamlaTeljes(NameTxt.getText(), IdTxt.getText(),EgyTxt.getText(),BeTxt.getText());
                         JOptionPane.showMessageDialog(this, "Müvelet sikeresen végrehajtva!");
                         new Ablak(bank); // Main Form to show after the Login Form.
                     }
@@ -516,120 +505,8 @@ public class Ablak extends JFrame
             frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame1.setVisible(true);
         }
-    }/*
-    class Módosítás extends Ablak
-    {
-        Módosítás(Bank bank, String name,String des)//                              Kiegészít
-        {
+    }
 
-            // Menu
-            JMenuBar mb;
-            JMenu file = new JMenu("További lehetőségek");
-            JMenuItem back,exit;
-
-            setJMenuBar(mb=new JMenuBar());
-            file.add(back=new JMenuItem("Back"));
-            file.add(exit=new JMenuItem("Exit"));
-            mb.add(file);
-
-            //Frame
-            JFrame frame1= new JFrame();
-            frame1.setTitle("Meglévő Bankszámla egyenleg módosítása");
-
-            // Panel to define the layout. We are using GridBagLayout
-
-            // Panel to define the layout. We are using GridBagLayout
-            JPanel panel = new JPanel(new GridBagLayout()){
-                @Override
-                protected void paintComponent(Graphics g)
-                {
-                    super.paintComponent(g);
-                    g.drawImage(image, 0, 0, null);
-                }
-            };
-            // Constraints for the layout
-            GridBagConstraints constr = new GridBagConstraints();
-            constr.insets = new Insets(5, 5, 5, 5);
-            constr.anchor = GridBagConstraints.WEST;
-
-            // Set the initial grid values to 0,0
-            constr.gridx=0;
-            constr.gridy=0;
-
-            // Declare the required Labels
-            JLabel NameLabel = new JLabel("Enter the name: ");//                       Kiegésziiiiiiiiiiiiiit
-            JLabel pwdLabel = new JLabel("Enter the description: ");
-
-            // Declare Text fields
-            JTextField NameTxt = new JTextField(20);
-            JTextField pwdTxt = new JTextField(20);
-            NameTxt.setText(name);
-            pwdTxt.setText(des);
-
-            panel.add(NameLabel, constr);
-            constr.gridx=1;
-            panel.add(NameTxt, constr);
-            constr.gridx=0; constr.gridy=1;
-
-            panel.add(pwdLabel, constr);
-            constr.gridx=1;
-            panel.add(pwdTxt, constr);
-            constr.gridx=0; constr.gridy=2;
-
-            constr.gridwidth = 2;
-            constr.anchor = GridBagConstraints.CENTER;
-
-            // Button with text "Register"
-            JButton button6 = new JButton("Done!");
-            // add a listener to button
-            button6.addActionListener(e -> {
-                if(!NameTxt.getText().equals("")&&!pwdTxt.getText().equals(""))
-                {
-                    if(Bankszámlák.szamla.contains(NameTxt.getText()))//                                 !!!!!!!!!!!!!!!!!!!!!!!
-                    {
-                        frame1.setVisible(false);
-                        bank.updateDes(NameTxt.getText(), IdTxt.getText());
-                        JOptionPane.showMessageDialog(frame1, "Operation successful!");
-                        new Ablak(bank); // Main Form to show after the Login Form.
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(frame1, "Operation failed!\nMedicine with given Name does not exist!");
-                        int reply = JOptionPane.showConfirmDialog(this,"Do you want to create new with this name?");
-                        if(reply==JOptionPane.YES_OPTION)
-                        {
-                            frame1.setVisible(false);
-                            new AddMed(medicines,NameTxt.getText(),pwdTxt.getText());
-                        }
-                    }
-                }
-                else {
-                    if (NameTxt.getText().equals("") && pwdTxt.getText().equals("")) JOptionPane.showMessageDialog(frame1, "Operation failed!\n No Name given!\n No Description given!");
-                    else if(NameTxt.getText().equals("")) JOptionPane.showMessageDialog(frame1, "Operation failed!\n No Name given!");
-                    else if(pwdTxt.getText().equals("")) JOptionPane.showMessageDialog(frame1, "Operation failed!\n No Description given!");
-                }
-            });
-            back.addActionListener(e ->
-            {
-                frame1.setVisible(false);
-                new Ablak(bank);
-            });
-            exit.addActionListener(e -> System.exit(0));
-            // Add label and button to panel
-            panel.add(button6, constr);
-
-
-            // Add panel to frame
-            frame1.add(panel);
-            frame1.pack();
-            frame1.setSize(Xml.getdata()[0], Xml.getdata()[1]);
-            frame1.setJMenuBar(mb);
-            frame1.setIconImage(img.getImage());
-            frame1.setLocationRelativeTo(null);
-            frame1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame1.setVisible(true);
-        }
-    }*/
     class BackgroundImage extends Ablak
     {
         static Image requestImage(String url)

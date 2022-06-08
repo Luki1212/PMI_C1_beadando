@@ -22,17 +22,18 @@ public class XmlBeolvasó {
                 node = child.item(i);
                 if(node.getNodeType()== Node.ELEMENT_NODE){
                     NodeList childnode= node.getChildNodes();
-                    String név ="",id ="",pénz="";
+                    String név ="",id ="",pénz="",besorolas="";
                     for (int j = 0; j < childnode.getLength(); j++) {
                         if(childnode.item(j).getNodeType()==Node.ELEMENT_NODE){
                             switch (childnode.item(j).getNodeName()) {
                                 case "név" -> név = childnode.item(j).getTextContent();
                                 case "id" -> id = childnode.item(j).getTextContent();
                                 case "pénz" -> pénz = childnode.item(j).getTextContent();
+                                case "besorolas" -> besorolas = childnode.item(j).getTextContent();
                             }
                         }
                     }
-                    szamla.add(new Bank(név,id,Integer.parseInt(pénz)));
+                    szamla.add(new Bank(név,id,Integer.parseInt(pénz),Besorolas.valueOf(besorolas)));
                 }
             }
         }catch(Exception e){

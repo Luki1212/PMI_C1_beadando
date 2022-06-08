@@ -2,11 +2,16 @@ public class Bank {
     private String név;
     private String id;
     private int pénz;
+    private Besorolas besorolas;
 
-    public Bank(String név, String id, int pénz) {
+    public Bank(String név, String id, int pénz, Besorolas besorolas) {
         this.név = név;
         this.id = id;
         this.pénz = pénz;
+        this.besorolas = besorolas;
+    }
+    public Besorolas Getbesorolas() {
+        return besorolas;
     }
 
     public String getName() {
@@ -32,7 +37,6 @@ public class Bank {
     public void setPenz(int pénz) {
         this.pénz = pénz;
     }
-
 
 
 }
