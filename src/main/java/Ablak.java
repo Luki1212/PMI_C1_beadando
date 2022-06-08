@@ -279,10 +279,12 @@ public class Ablak extends JFrame
                     return renderCENTER;
                 }
             };
-            table.setBounds(0,0,400,300);
+            table.setBounds(0,0,400,500);
+
+
+            JButton button8 = new JButton("Back to Main");
 
             JScrollPane scrollPane = new JScrollPane(table);
-            JButton button8 = new JButton("Back to Main");
 
             constr.gridy=0;
 
@@ -322,7 +324,7 @@ public class Ablak extends JFrame
             });
             exit.addActionListener(e -> System.exit(0));
             // Editable Table
-            DefaultTableModel tableModel = new DefaultTableModel(Bankszámlák.createStringArray(),col) {//               !!!!!!!!!!!!!!!!!
+            DefaultTableModel tableModel = new DefaultTableModel(Bankszámlák.createStringArray(),col) {//
 
                 @Override
                 public boolean isCellEditable(int row, int column) {
@@ -330,13 +332,19 @@ public class Ablak extends JFrame
                     return false;
                 }
             };
-
             table.setModel(tableModel);
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             table.getColumnModel().getColumn(0).setPreferredWidth(100);
-            table.getColumnModel().getColumn(1).setPreferredWidth(50);
+            table.getColumnModel().getColumn(1).setPreferredWidth(60);
             table.getColumnModel().getColumn(2).setPreferredWidth(100);
-            table.getColumnModel().getColumn(3).setPreferredWidth(150);
+            table.getColumnModel().getColumn(3).setPreferredWidth(140);
+
+
+
+
+
+
+
             //Table Content Double Click
             table.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent me) {
@@ -353,9 +361,9 @@ public class Ablak extends JFrame
             frame2.add(panel);
             frame2.pack();
             frame2.setLocationRelativeTo(null);
-            //frame2.setSize(Content.getWidth()+220,Content.getHeight()+100);
+            //frame2.setSize(table.getWidth()+220,table.getHeight()+100);
             System.out.println(table.getHeight());
-            frame2.setSize(760,600);
+            frame2.setSize(800,600);
             frame2.setJMenuBar(mb);
             frame2.setIconImage(img.getImage());
             frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -25,9 +25,15 @@
         <besorolas>MAGANSZEMELY</besorolas>
     </szamla>
     <szamla>
-        <név>Béna Béla</név>
-        <id>03msz</id>
-        <pénz>300</pénz>
+        <név>Béla</név>
+        <id>12</id>
+        <pénz>10</pénz>
+        <besorolas>MAGANSZEMELY</besorolas>
+    </szamla>
+    <szamla>
+        <név>faszom</név>
+        <id>2sx4</id>
+        <pénz>6540</pénz>
         <besorolas>MAGANSZEMELY</besorolas>
     </szamla>
 </szamla>

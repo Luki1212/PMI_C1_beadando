@@ -12,6 +12,7 @@ import java.awt.*;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Bankszámlák {
@@ -97,8 +98,10 @@ public class Bankszámlák {
         JPanel panel = new JPanel();
         JLabel IdLabel = new JLabel("Id :");
         JLabel PéLabel = new JLabel("Egyenleg :");
-        String id = "";
-        int pénz = 0;
+        String[] besorolas = {Besorolas.MAGANSZEMELY.getMessage(),Besorolas.KISVALLALKOZO.getMessage(),Besorolas.NAGYVALLALKOZO.getMessage()};
+        JComboBox besorolasmenu = new JComboBox(besorolas);
+        JButton kezd = new JButton("Létrehozás");
+
         JTextField IdTxt = new JTextField(20);
         JTextArea IdText = new JTextArea();
         JTextField PéTxt = new JTextField(20);
@@ -110,55 +113,61 @@ public class Bankszámlák {
         panel.add(PéLabel, constr);
         constr.gridx=1;
         panel.add(PéTxt, constr);
+        constr.gridx=1;
+        panel.add(besorolasmenu, constr);
+        constr.gridx=1;
+        panel.add(kezd, constr);
         constr.gridx=0; constr.gridy=2;
+        kezd.addActionListener(e -> {
+            boolean igaz = false;
+            String id ="";
+            //System.out.print("Üsse be az id-t (min 2, max 20 karakter): \n");
+            while (igaz == false) {
 
-        boolean igaz = false;
-        //System.out.print("Üsse be az id-t (min 2, max 20 karakter): \n");
-        while (igaz == false) {
+                try {
+                    id = IdTxt.getText();
 
-            try {
-                id = IdText.getText();
+                    for (int i = 0; i < szamla.size(); i++) {
+                        if (id.equals(szamla.get(i).getId())) {
+                            throw new LetezoId();
+                        } else if (id.length() > 20 || id.length() < 2) {
 
-                for (int i = 0; i < szamla.size(); i++) {
-                    if (id.equals(szamla.get(i).getId())) {
-                        throw new LetezoId();
-                    } else if (id.length() > 20 || id.length() < 2) {
-
-                        throw new HibasId();
-                    } else if (i == szamla.size() - 1) {
-                        igaz = true;
-                        break;
+                            throw new HibasId();
+                        } else if (i == szamla.size() - 1) {
+                            igaz = true;
+                            break;
+                        }
                     }
+                } catch (HibasId hi) {
+                    JFrame frame1= new JFrame();
+                    frame1.setTitle("Hiba");
+                    JOptionPane.showMessageDialog(frame1, "nem jo id hossz \nProbálja ujra");
+                    break;
+                } catch (LetezoId hi) {
+                    JFrame frame1= new JFrame();
+                    frame1.setTitle("Hiba");
+                    JOptionPane.showMessageDialog(frame1, "Már Létezik ilyen id-val rendelkező számla \nProbálja ujra");
+                    break;
                 }
-            } catch (HibasId hi) {
-                JFrame frame1= new JFrame();
-                frame1.setTitle("Hiba");
-                JOptionPane.showMessageDialog(frame1, "nem jo id hossz \nProbálja ujra");
-                new Ablak(new Bank("","",0,Besorolas.MAGANSZEMELY));
-            } catch (LetezoId hi) {
-                JFrame frame1= new JFrame();
-                frame1.setTitle("Hiba");
-                JOptionPane.showMessageDialog(frame1, "Már Létezik ilyen id-val rendelkező számla \nProbálja ujra");
-                new Ablak(new Bank("","",0,Besorolas.MAGANSZEMELY));
+
             }
 
-        }
+            int pénz=0;
+            while (true) {
 
-        while (true) {
+                try {
+                    pénz = Integer.parseInt(PéTxt.getText());
+                    break;
+                } catch (InputMismatchException ef) {
+                    JFrame frame1= new JFrame();
+                    frame1.setTitle("Hiba");
+                    JOptionPane.showMessageDialog(frame1, "nem szám Pénz értéke");
+                    break;
+                }
 
-            try {
-                pénz = Integer.parseInt(PéText.getText());
-                break;
-            } catch (InputMismatchException e) {
-                JFrame frame1= new JFrame();
-                frame1.setTitle("Hiba");
-                JOptionPane.showMessageDialog(frame1, "nem szám Pénz értéke");
-                scanner.nextLine();
-                new Ablak(new Bank("","",0,Besorolas.MAGANSZEMELY));
             }
-
-        }
-        szamla.add(new Bank(név,id,pénz,Besorolas.MAGANSZEMELY));/////                                                átíír
+            szamla.add(new Bank(név,id,pénz,Besorolas.valueOf(besorolasmenu.getSelectedItem().toString().toUpperCase(Locale.ROOT))));
+        });
         JFrame frame1= new JFrame();
         frame1.setTitle("Siker");
         JOptionPane.showMessageDialog(frame1, "Uj számla sikeresen hozzáadva");
@@ -179,13 +188,15 @@ public class Bankszámlák {
             JLabel NéLabel = new JLabel("Számlatulajdonos :");
             JLabel IdLabel = new JLabel("Id :");
             JLabel PéLabel = new JLabel("Egyenleg :");
+            String[] besorolas = {Besorolas.MAGANSZEMELY.getMessage(),Besorolas.KISVALLALKOZO.getMessage(),Besorolas.NAGYVALLALKOZO.getMessage()};
+            JComboBox besorolasmenu = new JComboBox(besorolas);
+            JButton kezd = new JButton("Létrehozás");
             JTextField NéTxt = new JTextField(20);
             JTextArea NéText = new JTextArea();
             JTextField IdTxt = new JTextField(20);
             JTextArea IdText = new JTextArea();
             JTextField PéTxt = new JTextField(20);
             JTextArea PéText = new JTextArea();
-            JButton button = new JButton("Létrehoz");
             panel.add(NéLabel, constr);
             constr.gridx=1;
             panel.add(NéTxt, constr);
@@ -197,15 +208,17 @@ public class Bankszámlák {
             panel.add(PéLabel, constr);
             constr.gridx=1;
             panel.add(PéTxt, constr);
-            constr.gridx=0; constr.gridy=3;
             constr.gridx=1;
-            panel.add(button, constr);
+            panel.add(besorolasmenu, constr);
+
+            constr.gridx=1;
+            panel.add(kezd, constr);
             constr.gridx=0; constr.gridy=1;
             frame2.add(panel);
             frame2.setSize(720,360);//                                                            lehet kell változtatni
             frame2.setResizable(false);
             frame2.setVisible(true);
-            button.addActionListener(e -> {
+            kezd.addActionListener(e -> {
                 final String nev=NéTxt.getText();
                 final String id = IdTxt.getText();
                 final int pénz = Integer.parseInt(PéTxt.getText());
@@ -230,14 +243,12 @@ public class Bankszámlák {
                         frame1.setTitle("Hiba");
                         JOptionPane.showMessageDialog(frame1, "Már létezik ilyen nevü számla tulajdonos, elöbb törölje a már meglévőt és kezdje ujra a folyamatot");
                         frame2.setVisible(false);
-                        new Ablak(new Bank("","",0,Besorolas.MAGANSZEMELY));
                         break;
                     }catch (ÜresNév hn){
                         JFrame frame1= new JFrame();
                         frame1.setTitle("Hiba");
                         JOptionPane.showMessageDialog(frame1, "nem adhat meg üres nevet");
                         frame2.setVisible(false);
-                        new Ablak(new Bank("","",0,Besorolas.MAGANSZEMELY));
                         break;
                     }
 
@@ -270,7 +281,6 @@ public class Bankszámlák {
                         frame1.setTitle("Hiba");
                         JOptionPane.showMessageDialog(frame1, "nem jo id hossz \nProbálja ujra");
                         frame2.setVisible(false);
-                        new Ablak(new Bank("","",0,Besorolas.MAGANSZEMELY));
                         break;
                     }
                     catch (LetezoId hi){
@@ -278,7 +288,6 @@ public class Bankszámlák {
                         frame1.setTitle("Hiba");
                         JOptionPane.showMessageDialog(frame1, "Már Létezik ilyen id-val rendelkező számla \nProbálja ujra");
                         frame2.setVisible(false);
-                        new Ablak(new Bank("","",0,Besorolas.MAGANSZEMELY));
                         break;
                     }
 
@@ -296,12 +305,12 @@ public class Bankszámlák {
                         JOptionPane.showMessageDialog(frame1, "nem szám Pénz értéke");
                         scanner.nextLine();
                         frame2.setVisible(false);
-                        new Ablak(new Bank("","",0,Besorolas.MAGANSZEMELY));
+
                         break;
                     }
 
                 }
-                    szamla.add(new Bank(nev,id,pénz,Besorolas.MAGANSZEMELY));
+                    szamla.add(new Bank(nev,id,pénz,Besorolas.valueOf(besorolasmenu.getSelectedItem().toString().toUpperCase(Locale.ROOT))));
                     saveToXml(szamla,"src\\main\\resources\\szamla.xml");
                     frame2.setVisible(false);
                     JFrame frame1= new JFrame();
@@ -345,6 +354,7 @@ public class Bankszámlák {
         frame2.setVisible(true);
 
         button3.addActionListener(e -> {
+            frame2.setVisible(false);
             final String id = IdTxt.getText();
             for (Bank szamlak : szamla) {
 
@@ -352,7 +362,7 @@ public class Bankszámlák {
 
                     JFrame frame = new JFrame();
                     frame.setTitle("Válasszon modositási lehetőségek közül");
-
+                    frame.setSize(300,200);
                     JPanel panel3 = new JPanel();
 
                     constr.insets = new Insets(5, 5, 5, 5);
@@ -363,6 +373,8 @@ public class Bankszámlák {
 
                     JLabel NameLabel = new JLabel("Név modositása :");
                     JLabel pwdLabel = new JLabel("egyenleg modositása :");
+                    NameLabel.setForeground(Color.black);
+                    pwdLabel.setForeground(Color.black);
                     //kell majd még egy választás
                     JButton button = new JButton("Módosítás");
                     JButton button0 = new JButton("Módosítás");
@@ -384,7 +396,8 @@ public class Bankszámlák {
 
                     constr.gridwidth = 2;
                     constr.anchor = GridBagConstraints.CENTER;
-
+                    frame.add(panel3);
+                    frame.setVisible(true);
                     button.addActionListener(er -> {
                         frame.setVisible(false);
                         Modnev(szamla, id);
@@ -394,9 +407,10 @@ public class Bankszámlák {
                         Modpenz(szamla, id);
                     });
                 }
-                new Ablak(new Bank("", "", 0, Besorolas.MAGANSZEMELY));
+
             }
         });
+        //new Ablak(new Bank("", "", 0, Besorolas.MAGANSZEMELY));
     }
     public static  void Modnev(ArrayList<Bank> szamla,String id) {
         for (Bank szamlak : szamla) {
@@ -445,23 +459,27 @@ public class Bankszámlák {
                             JFrame frame1 = new JFrame();
                             frame1.setTitle("Hiba");
                             JOptionPane.showMessageDialog(frame1, "Már Létezik ilyen névvel számla \nProbálja ujra");
-                            new Ablak(new Bank("", "", 0, Besorolas.MAGANSZEMELY));
+                            break;
+
                         } catch (ÜresNév hn) {
                             JFrame frame1 = new JFrame();
                             frame1.setTitle("Hiba");
                             JOptionPane.showMessageDialog(frame1, "nem adhat meg üres nevet \nProbálja ujra");
-                            new Ablak(new Bank("", "", 0, Besorolas.MAGANSZEMELY));
+                            break;
                         }
 
                     }
+                    szamla.set(szamla.indexOf(szamlak), new Bank(név, id, szamlak.getPenz(), Besorolas.MAGANSZEMELY));
+                    saveToXml(szamla,"src\\main\\resources\\szamla.xml");
+                    frame2.setVisible(false);
+                    JOptionPane.showMessageDialog(null,"Számla tulajdonos neve sikeresen modosítva\n");
                 });
-                JFrame frame1 = new JFrame();
-                frame1.setTitle("Siker");
-                JOptionPane.showMessageDialog(frame1, "Számla tulajdonos neve sikeresen modosítva\n");
-                new Ablak(new Bank("", "", 0, Besorolas.MAGANSZEMELY));
-                return;
+
+
             }
         }
+        new Ablak(new Bank("", "", 0, Besorolas.MAGANSZEMELY));
+        return;
     }
     public static  void Modpenz(ArrayList<Bank> szamla,String id){
         for (Bank szamlak : szamla) {
@@ -480,7 +498,7 @@ public class Bankszámlák {
                 JButton button8 = new JButton("Modositas");
                 JTextField PéTxt = new JTextField(20);
                 JTextArea PéText = new JTextArea();
-                final int pénz = Integer.parseInt(PéTxt.getText());
+
                 panel.add(PéLabel, constr);
                 constr.gridx = 1;
                 panel.add(PéTxt, constr);
@@ -505,16 +523,18 @@ public class Bankszámlák {
                             JFrame frame1= new JFrame();
                             frame1.setTitle("Hiba");
                             JOptionPane.showMessageDialog(frame1, "Nem szám Pénz érték!");
-                            scanner.nextLine();
-                            new Ablak(new Bank("","",0,Besorolas.MAGANSZEMELY));
+                            break;
+
                         }
                     }
+                    frame2.setVisible(false);
+                    JFrame frame1= new JFrame();
+                    frame1.setTitle("Siker");
+                    JOptionPane.showMessageDialog(frame1, "Számla pénz összege sikeresen módosítva.\n");
                 });
             }
         }
-        JFrame frame1= new JFrame();
-        frame1.setTitle("Siker");
-        JOptionPane.showMessageDialog(frame1, "Számla pénz összege sikeresen módosítva.\n");
+
         new Ablak(new Bank("","",0,Besorolas.MAGANSZEMELY));
         return;
     }
