@@ -4,19 +4,19 @@
         <név>Kis józsi</név>
         <id>01kv</id>
         <pénz>5000</pénz>
-        <besorolas>MAGANSZEMELY</besorolas>
+        <besorolas>KISVALLALKOZO</besorolas>
     </szamla>
     <szamla>
         <név>Nagy Ferenc</név>
         <id>02kv</id>
         <pénz>1</pénz>
-        <besorolas>MAGANSZEMELY</besorolas>
+        <besorolas>KISVALLALKOZO</besorolas>
     </szamla>
     <szamla>
         <név>Végh Béla</név>
         <id>01nv</id>
         <pénz>15000</pénz>
-        <besorolas>MAGANSZEMELY</besorolas>
+        <besorolas>NAGYVALLALKOZO</besorolas>
     </szamla>
     <szamla>
         <név>Makkos Irénke</név>
