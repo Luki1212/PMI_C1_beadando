@@ -180,12 +180,6 @@ public class Ablak extends JFrame
                         else
                         {
                             JOptionPane.showMessageDialog(this, "Hiba történt!\nA megadott Név nem szerepel az adatbázisban!");
-                            int reply =JOptionPane.showConfirmDialog(this,"Kíván új számlát létrehozni a megadott névvel?");
-                            if(reply==JOptionPane.YES_OPTION)
-                            {
-                                frame4.setVisible(false);
-                                Bankszámlák.Ujszamla(rename);
-                            }
                         }
                     }
                     else
